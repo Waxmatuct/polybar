@@ -1,6 +1,6 @@
 #!/bin/sh
 
-USERNAME="PlagueAngel"
+USERNAME="plagueangel"
 games=$(curl -sf "https://api.chess.com/pub/player/$USERNAME/games/to-move" | jq ".[] | length")
 
 if [ "$games" -gt 0 ]; then
