@@ -40,17 +40,17 @@ fixed-center = false
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-line-size = 2
+line-size = 0
 line-color = #f00
 
 border-size = 0
 border-color = #00000000
 
 padding-left = 0
-padding-right = 1
+padding-right = 3
 
-module-margin-left = 2
-module-margin-right = 2
+module-margin-left = 3
+module-margin-right = 3
 
 font-0 = Roboto:style=Regular:size=11;2
 #font-0 = SourceCodeProRegular:antialias=true:size=10;2
@@ -61,9 +61,9 @@ font-3 = Font Awesome 5 Brands:style=Solid:size=9;2
 
 modules-left = i3 mpd 
 modules-center = xwindow
-modules-right = lichess-notification xkeyboard openweathermap-simple usdrate eurrate btcrate xbacklight alsa pulseaudio filesystem cpu memory wlan battery temperature date powermenu
+modules-right = updates-pacman-aurhelper lichess-notification xkeyboard openweathermap-simple usdrate eurrate btcrate xbacklight pulseaudio filesystem cpu memory wlan battery temperature date powermenu
 
-tray-position = right
+tray-position = none
 tray-padding = 2
 ;tray-background = #0063ff
 
@@ -80,6 +80,8 @@ wm-restack = i3
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+separator = | 
 
 [module/xwindow]
 type = internal/xwindow
@@ -107,7 +109,7 @@ interval = 25
 
 mount-0 = /
 
-label-mounted =  %percentage_used%%
+label-mounted =  %free%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
 
@@ -146,7 +148,7 @@ label-urgent-background = ${colors.alert}
 label-urgent-padding = 2
 
 ; Separator in between workspaces
-; label-separator = |
+label-separator = |
 
 
 [module/mpd]
@@ -198,7 +200,7 @@ interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
-label = %percentage_used%%
+label = %mb_used%
 
 [module/wlan]
 type = internal/network
@@ -258,13 +260,14 @@ label = %date% %time%
 type = internal/pulseaudio
 
 format-volume = <label-volume> <bar-volume>
-label-volume = VOL %percentage%%
+label-volume = 
 label-volume-foreground = ${root.foreground}
 
-label-muted = 🔇 muted
-label-muted-foreground = #666
+format-muted-prefix = " "
+format-muted-foreground = ${colors.foreground-alt}
+label-muted = sound muted
 
-bar-volume-width = 10
+bar-volume-width = 15
 bar-volume-foreground-0 = #55aa55
 bar-volume-foreground-1 = #55aa55
 bar-volume-foreground-2 = #55aa55
@@ -273,11 +276,11 @@ bar-volume-foreground-4 = #55aa55
 bar-volume-foreground-5 = #f5a70a
 bar-volume-foreground-6 = #ff5555
 bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 0
-bar-volume-fill = ─
+bar-volume-indicator = 
+bar-volume-indicator-font = 1
+bar-volume-fill = -
 bar-volume-fill-font = 0
-bar-volume-empty = ─
+bar-volume-empty = -
 bar-volume-empty-font = 0
 bar-volume-empty-foreground = ${colors.foreground-alt}
 
@@ -352,13 +355,13 @@ format-underline = #f50a4d
 format-warn = <ramp> <label-warn>
 format-warn-underline = ${self.format-underline}
 
-label = %temperature-c%
-label-warn = %temperature-c%
+label =  %temperature-c%
+label-warn =  %temperature-c%
 label-warn-foreground = ${colors.secondary}
 
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
 ramp-foreground = ${colors.foreground-alt}
 
 [module/powermenu]
@@ -368,11 +371,11 @@ expand-right = true
 
 format-spacing = 1
 
-label-open = 
-label-open-foreground = ${colors.secondary}
-label-close =  cancel
-label-close-foreground = ${colors.secondary}
-label-separator = |
+label-open = 
+label-open-foreground = ${colors.foreground}
+label-close = cancel
+label-close-foreground = ${colors.foreground}
+label-separator = –
 label-separator-foreground = ${colors.foreground-alt}
 
 menu-0-0 = reboot
@@ -383,24 +386,12 @@ menu-0-1-exec = menu-open-2
 menu-1-0 = cancel
 menu-1-0-exec = menu-open-0
 menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
+menu-1-1-exec = reboot
 
 menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
+menu-2-0-exec = shutdown now
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
-
-#[module/openweathermap-detailed]
-#type = custom/script
-#exec = ~/.config/polybar/scripts/openweathermap-detailed.sh
-#interval = 600
-#label-font = 2
-
-[module/openweathermap-fullfeatured]
-type = custom/script
-exec = ~/.config/polybar/scripts/openweathermap-fullfeatured.sh
-interval = 600
-label-font = 3
 
 [module/openweathermap-simple]
 type = custom/script
@@ -443,6 +434,12 @@ exec = ~/.config/polybar/scripts/lichess-notification.sh
 interval = 60
 click-left = xdg-open https://lichess.org & disown
 format-underline = #4bffdc
+
+[module/updates-pacman-aurhelper]
+type = custom/script
+exec =~/.config/polybar/scripts/updates-pacman-aurhelper.sh
+format-prefix = " "
+interval = 600
 
 [settings]
 screenchange-reload = true
